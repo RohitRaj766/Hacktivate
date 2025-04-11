@@ -12,7 +12,7 @@ import PoliticalPartyDashboard from './pages/PoliticalPartyDashboard';
 import OTPVerification from './pages/OtpVerification';
 import ProjectList from './pages/PoliticalParty/ProjectList';
 import PoliticalPartyBills from './pages/PoliticalParty/PoliticalPartyBills';
-
+import Chatbot from './chatbot/Chatbot';
 
 
 const App = () => {
@@ -21,6 +21,8 @@ const App = () => {
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/chatbot" element={<Chatbot />} />
+
       <Route path="/otp-verification" element={<OTPVerification />} />
      
       <Route
@@ -43,6 +45,8 @@ const App = () => {
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
+
+    
   );
 };
 
