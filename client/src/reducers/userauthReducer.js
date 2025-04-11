@@ -118,9 +118,6 @@ import {
                   return { ...state, loading: false, message: action.payload.message };
                 case RESET_PASSWORD_FAILURE:
                   return { ...state, loading: false, error: action.payload.error }; 
-                case COMPLETED_QUIZES_SUCCESS:
-                  return{...state, loading:false,completedQuizes:action.payload}
-  
 
       default:
         return state;

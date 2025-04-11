@@ -1,17 +1,16 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import CitizenDashboard from './pages/CitizenDashboard'
-import GovernanceDashboard from './pages/GovernanceDashboard'
-import PartyDashboard from './pages/PartyDashboard'
-import ActiveProjects from './pages/Citizen/ActiveProjects'
-import Login from './pages/Login'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Dashboard from './pages/CitizenDashboard';
 
-function App() {
+const App = () => {
   return (
-    <>
-      <Login/>
-    </>
- 
-  )
-}
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
+  );
+};
 
-export default App
+export default App;

@@ -1,52 +1,53 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { loginRequest } from '../actions'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginRequest } from '../actions/userActions';
 
 const Login = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { isAuthenticated, isLoading, error } = useSelector(state => state.userauth)
-  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, isLoading, error } = useSelector((state) => state.userauth);
+
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
-  })
+  });
 
-//   useEffect(() => {
-//     if (isAuthenticated) {
-//       navigate('/dashboard') // Redirect to dashboard on successful login
-//     }
-//   }, [isAuthenticated, navigate])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(loginRequest(credentials))
-  }
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, isLoading, navigate]);
 
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
       [e.target.name]: e.target.value
-    })
-  }
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginRequest(credentials));
+  };
 
   return (
-    <div className="flex justify-center items-center w-full my-5">
-      <div className="flex flex-col items-center w-full max-w-2xl">
-        <h1 className="text-4xl text-blue-700 font-bold font-primary tracking-widest truncate mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h2 className="text-3xl font-bold text-blue-600 text-center mb-6 tracking-wider">
           LOGIN
-        </h1>
+        </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col items-start w-full max-w-md bg-white px-4 py-6 shadow rounded-md">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="email"
             name="email"
             placeholder="EMAIL"
             value={credentials.email}
             onChange={handleChange}
-            className="w-full h-16 px-2 mt-3 mb-4 bg-gray-50 rounded shadow-sm placeholder:text-gray-500 placeholder:tracking-[4px] text-gray-600 tracking-[4px] font-primary text-lg focus:outline-none"
             required
+            className="w-full h-12 px-4 bg-gray-50 rounded shadow-sm placeholder-gray-500 text-gray-700 tracking-wide focus:outline-none"
           />
 
           <input
@@ -55,20 +56,16 @@ const Login = () => {
             placeholder="PASSWORD"
             value={credentials.password}
             onChange={handleChange}
-            className="w-full h-16 px-2 mt-3 mb-2 bg-gray-50 rounded shadow-sm placeholder:text-gray-500 placeholder:tracking-[4px] text-gray-600 tracking-[4px] font-primary text-lg focus:outline-none"
             required
+            className="w-full h-12 px-4 bg-gray-50 rounded shadow-sm placeholder-gray-500 text-gray-700 tracking-wide focus:outline-none"
           />
 
-          {error && (
-            <div className="w-full text-red-500 text-sm mb-2">
-              {error}
-            </div>
-          )}
+          {error && <p className="text-red-500 text-sm font-medium">{error}</p>}
 
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-yellow-500 h-10 rounded shadow-md text-gray-100 tracking-widest font-medium font-primary hover:bg-yellow-600 hover:shadow-lg transition-all mt-4 ${
+            className={`w-full h-12 bg-yellow-500 hover:bg-yellow-600 text-white rounded shadow-md font-semibold tracking-widest transition-all ${
               isLoading ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
@@ -77,7 +74,7 @@ const Login = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
