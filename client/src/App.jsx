@@ -6,6 +6,7 @@ import CitizenDashboard from './pages/CitizenDashboard';
 import ActiveProjects from './pages/Citizen/ActiveProjects';
 import Bills from './pages/Citizen/Bills';
 import Forum from './pages/Citizen/Forum';
+import RaiseIssue from './pages/Citizen/RaiseIssue';
 import OTPVerification from './pages/OtpVerification';
 
 
@@ -21,7 +22,7 @@ const App = () => {
         <Route index element={<ActiveProjects />} />
         <Route path="bills" element={<Bills />} />
         <Route path="forum" element={<Forum />} />
-        {/* <Route path="raise-issue" element={<RaiseIssue />} /> */}
+        <Route path="raise-issue" element={<RaiseIssue />} />
       </Route>
     </Routes>
   );

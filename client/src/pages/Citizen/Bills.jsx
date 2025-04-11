@@ -178,11 +178,11 @@ const Bills = () => {
                   </div>
 
                   {bill.status === 'active' && (
-                    <div className="mt-4 pt-4 border-t border-gray-100 flex gap-2">
-                      <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                    <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+                      <button className="text-sm text-blue-600 hover:text-blue-800 font-medium cursor-pointer">
                         View Details
                       </button>
-                      <button className="text-sm text-gray-500 hover:text-gray-700 font-medium">
+                      <button className="text-sm text-gray-500 hover:text-gray-700 font-medium cursor-pointer ml-auto">
                         Vote Now
                       </button>
                     </div>
