@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-const PartySidebar = () => {
+const PoliticalPartySidebar = () => {
   const [selectedItem, setSelectedItem] = useState(0);
 
   const menuItems = [
-    { icon: '📈', text: 'Active Projects' },
-    { icon: '💸', text: 'Bills' },
-    { icon: '🗳️', text: 'Create Poll' },
-    { icon: '🛠️', text: 'Add Project' },
+    { icon: '📋', text: 'Projects List' },      // Project/task list
+    { icon: '📑', text: 'Bills' },              // Documents/paperwork
+    { icon: '💰', text: 'Fund Management' },     // Money/finance
+    { icon: '🛠️', text: 'Create Project' },     // Tools/work
   ];
 
   return (
@@ -15,7 +15,8 @@ const PartySidebar = () => {
       {/* Header Section */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-800">
-          <span className="text-blue-600">P</span>arty
+          <span className="text-blue-600">P</span>olitical 
+          <span className="text-blue-600"> P</span>arty
         </h2>
         <p className="text-sm text-gray-500 mt-1">Management Portal</p>
       </div>
@@ -41,4 +42,4 @@ const PartySidebar = () => {
   );
 };
 
-export default PartySidebar;
+export default PoliticalPartySidebar;

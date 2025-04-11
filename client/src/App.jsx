@@ -7,7 +7,7 @@ import ActiveProjects from './pages/Citizen/ActiveProjects';
 import Bills from './pages/Citizen/Bills';
 import Forum from './pages/Citizen/Forum';
 import RaiseIssue from './pages/Citizen/RaiseIssue';
-
+import PoliticalPartyDashboard from './pages/PoliticalPartyDashboard';
 import OTPVerification from './pages/OtpVerification';
 
 
@@ -24,7 +24,13 @@ const App = () => {
         <Route path="bills" element={<Bills />} />
         <Route path="forum" element={<Forum />} />
         <Route path="raise-issue" element={<RaiseIssue />} />
-    
+      </Route>
+
+      <Route path="/admin-dashboard" element={<PoliticalPartyDashboard />}>
+        <Route index element={<ActiveProjects />} />
+        <Route path="bills" element={<Bills />} />
+        <Route path="forum" element={<Forum />} />
+        <Route path="raise-issue" element={<RaiseIssue />} />
       </Route>
     </Routes>
   );

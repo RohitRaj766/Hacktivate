@@ -1,8 +1,8 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import PartySidebar from "../components/PartySidebar";
+import PartySidebar from "../components/PoliticalPartySidebar";
 
-const PartyDashboard = ({ children }) => {
+const PoliticalPartyDashboard = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Fixed Navbar */}
@@ -22,4 +22,4 @@ const PartyDashboard = ({ children }) => {
   );
 };
 
-export default PartyDashboard;
+export default PoliticalPartyDashboard;
