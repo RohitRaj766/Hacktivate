@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 const OTPVerification = () => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
-  const email = localStorage.getItem('userEmail'); // Retrieve email from localStorage
-  const navigate = useNavigate(); // Hook for navigation
+  const email = localStorage.getItem('userEmail');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setOtp(e.target.value);
@@ -18,19 +18,16 @@ const OTPVerification = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Prepare the payload with the correct format
     const payload = {
       email: email,
-      otp: otp
+      otp: otp,
     };
 
     try {
-      const res = await axios.post('http://localhost:5000/citizens/verify-otp', payload); // Replace with actual API URL
+      const res = await axios.post('http://localhost:5000/citizens/verify-otp', payload);
       toast.success('OTP verified successfully!');
       console.log(res.data);
-
-      // Optionally, navigate to another page after OTP verification
-      navigate('/login'); // Redirect after OTP verification
+      navigate('/login');
     } catch (err) {
       const msg = err.response?.data?.error || 'OTP verification failed';
       toast.error(msg);
@@ -40,9 +37,11 @@ const OTPVerification = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full my-5 px-4">
-      <div className="flex flex-col items-center w-full max-w-xl bg-white p-6 rounded-2xl shadow-lg">
-        <h1 className="text-4xl text-blue-700 font-bold tracking-widest mb-6">OTP Verification</h1>
+    <div className="min-h-screen flex justify-center items-center px-4 bg-gradient-to-br from-yellow-100 to-blue-100">
+      <div className="flex flex-col items-center w-full max-w-xl bg-white p-8 rounded-2xl shadow-2xl">
+        <h1 className="text-4xl text-blue-700 font-extrabold tracking-widest mb-8">
+          OTP Verification
+        </h1>
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
           <input
@@ -51,7 +50,7 @@ const OTPVerification = () => {
             value={otp}
             onChange={handleChange}
             placeholder="Enter OTP"
-            className="w-full h-14 px-4 bg-gray-50 rounded-md shadow placeholder:text-gray-400 text-gray-700 text-lg focus:outline-blue-400"
+            className="w-full h-14 px-4 bg-gray-50 rounded-md shadow placeholder:text-gray-400 text-gray-700 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
             required
           />
 

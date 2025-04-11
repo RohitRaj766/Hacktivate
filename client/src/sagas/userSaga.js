@@ -12,6 +12,8 @@ function* handleLogin(action) {
 
     // Dispatch success action
     yield put(loginSuccess(data.LoggedInUser));
+    console.log("data :: ", data)
+    localStorage.setItem('user', JSON.stringify(data)); // user = { firstname, lastname, ... }
   } catch (err) {
     // Dispatch failure action
     yield put(loginFailure(err.response?.data?.error || 'Login failed'));
