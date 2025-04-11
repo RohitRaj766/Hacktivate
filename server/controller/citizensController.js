@@ -40,27 +40,35 @@ const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
+    // Check if email and OTP are provided
     if (!email || !otp) {
       return res.status(400).json({ error: "Email and OTP are required" });
     }
 
+    // Check if OTP exists in the otpStore
     const otpData = otpStore[email];
     if (!otpData) {
       return res.status(400).json({ error: "Invalid or expired OTP" });
     }
 
+    // Check if OTP has expired
     if (Date.now() > otpData.expiry) {
-      delete otpStore[email];
+      delete otpStore[email];  // Delete expired OTP from store
       return res.status(400).json({ error: "OTP expired" });
     }
 
+    // Check if the OTP matches
     if (otpData.otp !== otp) {
       return res.status(400).json({ error: "Invalid OTP" });
     }
 
+    // Extract user information from otpData
     const { firstname, lastname, password, gender, occupation, dateofbirth } = otpData.user;
+
+    // Hash the password before saving it to the database
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create new user
     const newUser = new Citizens({
       firstname,
       lastname,
@@ -71,14 +79,20 @@ const verifyOtp = async (req, res) => {
       password: hashedPassword
     });
 
+    // Save the new user to the database
     await newUser.save();
+
+    // Delete OTP from the store after successful registration
     delete otpStore[email];
 
+    // Respond with success message
     return res.status(201).json({ message: "User Registered Successfully" });
   } catch (error) {
+    console.error("Error:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 const loginUser = async (req, res) => {
   try {

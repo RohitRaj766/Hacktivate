@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Make sure axios is installed
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,8 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); // For toggling confirm password visibility
+
+  const navigate = useNavigate(); // Initialize the navigation hook
 
   const handleChange = (e) => {
     setFormData({
@@ -52,7 +55,12 @@ const Signup = () => {
       const res = await axios.post('http://localhost:5000/citizens/registration', payload); // Replace with actual API URL
       toast.success('Registration successful!');
       console.log(res.data);
-      // Optionally, redirect or clear form data here
+
+      // Store the email in localStorage for OTP verification
+      localStorage.setItem('userEmail', formData.email);
+
+      // Navigate the user to OTP verification page
+      navigate('/otp-verification');
     } catch (err) {
       const msg = err.response?.data?.error || 'Registration failed';
       toast.error(msg);
