@@ -30,7 +30,7 @@ const Navbar = () => {
       {/* Right side - User info and Logout */}
       <div className="flex items-center gap-6">
         <div className="text-gray-600 mr-4">
-          {user ? `Hi, ${user.firstname} ${user.lastname}` : 'Loading...'}
+          {user ? `Hi, ${user.firstname} ${user.lastname}` : ''}
         </div>
         <button
           onClick={handleLogout}
