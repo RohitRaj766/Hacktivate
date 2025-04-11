@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import Signup from './pages/SignUp';
 import CitizenDashboard from './pages/CitizenDashboard';
 import ActiveProjects from './pages/Citizen/ActiveProjects';
+import Bills from './pages/Citizen/Bills';
+import Forum from './pages/Citizen/Forum';
 
 const App = () => {
   return (
@@ -14,7 +16,9 @@ const App = () => {
 
       <Route path="/dashboard" element={<CitizenDashboard />}>
         <Route index element={<ActiveProjects />} />
-        {/* Other nested routes can go here */}
+        <Route path="bills" element={<Bills />} />
+        <Route path="forum" element={<Forum />} />
+        {/* <Route path="raise-issue" element={<RaiseIssue />} /> */}
       </Route>
     </Routes>
   );

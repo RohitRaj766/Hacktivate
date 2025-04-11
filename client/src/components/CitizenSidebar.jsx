@@ -5,8 +5,9 @@ const Sidebar = () => {
   const menuItems = [
     { icon: '📂', text: 'Active Projects', path: '/dashboard' },
     { icon: '💰', text: 'Bills', path: '/dashboard/bills' },
-    { icon: '📊', text: 'Polls', path: '/dashboard/polls' },
+    { icon: '💬', text: 'Forum', path: '/dashboard/forum' },
     { icon: '⚠️', text: 'Raise Issue', path: '/dashboard/raise-issue' },
+    { icon: '🛠️', text: 'Edit Profile', path: '/dashboard/edit-profile' },
   ];
 
   return (
