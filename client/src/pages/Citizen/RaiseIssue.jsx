@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RaiseIssue = () => {
   const [issueText, setIssueText] = useState('');
@@ -7,11 +9,11 @@ const RaiseIssue = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!issueText || !party) {
-      alert('Please fill in all fields.');
+      toast.error('Please fill in all fields.');
       return;
     }
     console.log('Issue submitted:', { issueText, party });
-    alert('Issue submitted successfully!');
+    toast.success('Issue submitted successfully!');
     setIssueText('');
     setParty('');
   };
@@ -61,12 +63,13 @@ const RaiseIssue = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md"
+            className="cursor-pointed bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md"
           >
             Submit Issue
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

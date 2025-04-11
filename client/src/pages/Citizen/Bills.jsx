@@ -1,7 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const Modal = ({ isOpen, onClose, onVote, bill }) => {
+  if (!isOpen) return null;
+
+  const handleVote = (vote) => {
+    onVote(vote);
+
+    if (vote === 'YES') {
+      toast.success('You voted YES!');
+      triggerGlitterEffect();
+      triggerBurstEffect();
+    } else if (vote === 'NO') {
+      toast.error('You voted NO!');
+    } else if (vote === 'NOTA') {
+      toast.info('You voted NOTA!');
+    }
+  };
+
+  const triggerGlitterEffect = () => {
+    const glitterContainer = document.getElementById('glitter-container');
+    glitterContainer.classList.add('glitter-effect');
+    setTimeout(() => {
+      glitterContainer.classList.remove('glitter-effect');
+    }, 3000);
+  };
+
+  const triggerBurstEffect = () => {
+    const burstContainer = document.getElementById('burst-container');
+    burstContainer.classList.add('burst-effect');
+    setTimeout(() => {
+      burstContainer.classList.remove('burst-effect');
+    }, 1000);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-96 relative">
+        <div className="flex justify-between mb-4">
+          <h3 className="text-xl font-semibold text-gray-800">Vote on Bill</h3>
+          <button
+            className="text-gray-600 hover:text-gray-800 cursor-pointer"
+            onClick={onClose}
+          >
+            ✖️
+          </button>
+        </div>
+
+        <div className="mb-6">
+          <p className="text-gray-700 mb-4">Do you support this bill: <span className="font-semibold">{bill?.title}</span>?</p>
+          <div className="flex justify-around space-x-4">
+            <button
+              className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer transition-all"
+              onClick={() => handleVote('YES')}
+            >
+              YES
+            </button>
+            <button
+              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer transition-all"
+              onClick={() => handleVote('NO')}
+            >
+              NO
+            </button>
+            <button
+              className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 cursor-pointer transition-all"
+              onClick={() => handleVote('NOTA')}
+            >
+              NOTA
+            </button>
+          </div>
+        </div>
+
+        <div id="burst-container" className="absolute inset-0 pointer-events-none"></div>
+
+        <div id="glitter-container" className="absolute inset-0 pointer-events-none"></div>
+      </div>
+    </div>
+  );
+};
 
 const Bills = () => {
-  const bills = [
+  const initialBills = [
     {
       id: 1,
       title: 'CLEAN WATER SUPPLY ACT',
@@ -110,7 +190,6 @@ const Bills = () => {
     Health: 'bg-pink-100 text-pink-800',
     Environment: 'bg-green-100 text-green-800',
     Education: 'bg-blue-100 text-blue-800',
-    Agriculture: 'bg-yellow-100 text-yellow-800',
     Infrastructure: 'bg-purple-100 text-purple-800',
     Housing: 'bg-indigo-100 text-indigo-800',
     Employment: 'bg-teal-100 text-teal-800',
@@ -122,10 +201,40 @@ const Bills = () => {
   };
 
   const getSectorColor = (sector) => {
-    const key = Object.keys(sectorColors).find((k) =>
-      sector.toLowerCase().includes(k.toLowerCase())
-    );
-    return sectorColors[key] || sectorColors.default;
+    return sectorColors[sector] || 'bg-gray-200 text-gray-700';
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBill, setSelectedBill] = useState(null);
+  const [bills, setBills] = useState(initialBills);
+
+  const openModal = (bill) => {
+    setSelectedBill(bill);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedBill(null);
+  };
+
+  const handleVote = (vote) => {
+    const updatedBills = bills.map((bill) => {
+      if (bill.id === selectedBill.id) {
+        // Update the bill status based on vote
+        if (vote === 'YES') {
+          return { ...bill, status: 'passed' };
+        } else if (vote === 'NO') {
+          return { ...bill, status: 'rejected' };
+        } else {
+          return { ...bill, status: 'rejected' }; // Handle NOTA if needed
+        }
+      }
+      return bill;
+    });
+
+    setBills(updatedBills);
+    closeModal();
   };
 
   const grouped = {
@@ -155,13 +264,7 @@ const Bills = () => {
                       {bill.sector}
                     </span>
                     <span
-                      className={`text-sm font-medium ${
-                        bill.status === 'active'
-                          ? 'text-green-600'
-                          : bill.status === 'passed'
-                          ? 'text-blue-600'
-                          : 'text-red-600'
-                      }`}
+                      className={`text-sm font-medium ${bill.status === 'active' ? 'text-green-600' : bill.status === 'passed' ? 'text-blue-600' : 'text-red-600'}`}
                     >
                       {statusMap[bill.status]}
                     </span>
@@ -179,12 +282,16 @@ const Bills = () => {
 
                   {bill.status === 'active' && (
                     <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-                      <button className="text-sm text-blue-600 hover:text-blue-800 font-medium cursor-pointer">
-                        View Details
-                      </button>
-                      <button className="text-sm text-gray-500 hover:text-gray-700 font-medium cursor-pointer ml-auto">
-                        Vote Now
-                      </button>
+                      {bill.voted ? (
+                        <span className="text-sm text-gray-500">Voted: {bill.voted}</span>
+                      ) : (
+                        <button
+                          className="text-sm text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
+                          onClick={() => openModal(bill)}
+                        >
+                          Vote Now
+                        </button>
+                      )}
                     </div>
                   )}
                 </div>
@@ -193,6 +300,10 @@ const Bills = () => {
           </div>
         </div>
       ))}
+
+      <Modal isOpen={isModalOpen} onClose={closeModal} onVote={handleVote} bill={selectedBill} />
+
+      <ToastContainer />
     </div>
   );
 };
