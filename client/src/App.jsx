@@ -12,6 +12,8 @@ import PoliticalPartyDashboard from './pages/PoliticalPartyDashboard';
 import OTPVerification from './pages/OtpVerification';
 import ProjectList from './pages/PoliticalParty/ProjectList';
 import PoliticalPartyBills from './pages/PoliticalParty/PoliticalPartyBills';
+import FundManagment from './pages/PoliticalParty/FundManagment';
+import CreateProject from './pages/PoliticalParty/CreateProject';
 
 
 
@@ -40,6 +42,8 @@ const App = () => {
       <Route path="/political-dashboard" element={<PoliticalPartyDashboard />}>
         <Route index element={<ProjectList />} />
         <Route path="political-bills" element={<PoliticalPartyBills />} />
+        <Route path="fund-management" element={<FundManagment />} />
+        <Route path="create-project" element={<CreateProject />} />
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
