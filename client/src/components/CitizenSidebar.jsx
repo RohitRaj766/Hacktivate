@@ -7,7 +7,7 @@ const Sidebar = () => {
     { icon: '💰', text: 'Bills', path: '/dashboard/bills' },
     { icon: '💬', text: 'Forum', path: '/dashboard/forum' },
     { icon: '⚠️', text: 'Raise Issue', path: '/dashboard/raise-issue' },
-    { icon: '🛠️', text: 'Edit Profile', path: '/dashboard/edit-profile' },
+    // { icon: '🛠️', text: 'Edit Profile', path: '/dashboard/edit-profile' },
   ];
 
   return (
