@@ -9,7 +9,6 @@ function App() {
       {/* <CitizenDashboard /> */}
       {/* <PartyDashboard /> */}
       {/* <GovernanceDashboard /> */}
-      <Signup />
     </>
   );
 }
