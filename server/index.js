@@ -1,22 +1,33 @@
 const express = require('express');
-require('dotenv').config()
+require('dotenv').config();
 
-const db = require('./config/db')
+const db = require('./config/db');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 const citizensRouter = require('./routes/citizensRouter');
 // const politicalRouter = require('./routes/politicalRouter');
 const governanceRouter = require('./routes/governanceRouter');
+// const feedbackRouter = require('./routes/feedback'); // ✅ added feedback route
 
 const app = express();
+
+// Middleware
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use('/citizens',citizensRouter);
-// app.use('/political', politicalRouter);
+// Routes
+app.use('/citizens', citizensRouter);
 app.use('/governance', governanceRouter);
+// app.use('/feedback', feedbackRouter); // ✅ added middleware
 
+// Default Route (optional)
+app.get('/', (req, res) => {
+  res.send('Backend server is running...');
+});
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server Runing at ${process.env.PORT}`);
-})
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

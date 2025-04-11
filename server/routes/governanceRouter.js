@@ -5,12 +5,13 @@ const { userMiddleware } = require("../middleware/authMiddleware");
 
 const {
     loginUser,
+    onboardPoliticalParty,
     // requestPasswordReset,
     // resetPassword
 } = require("../controller/governanceController");
 
 router.post("/login", loginUser);
-// router.post('/request-password-reset', requestPasswordReset);
+router.post('/onboardpoliticalparty', onboardPoliticalParty);
 // router.post('/reset-password', resetPassword);
 
 module.exports = router;

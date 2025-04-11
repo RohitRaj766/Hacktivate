@@ -125,7 +125,7 @@ const requestPasswordReset = async (req, res) => {
 
     otpStore[email] = { token, expiry };
 
-    const resetLink = `localhost:5000/citizens/reset-password/${token}`;
+    const resetLink = `localhost:5000/citizens/reset-password/${token}`; // need to change this link for live project.
     await sendMailpasswordreset(email, resetLink);
 
     return res.status(200).json({ message: "Password reset link sent to email" });
