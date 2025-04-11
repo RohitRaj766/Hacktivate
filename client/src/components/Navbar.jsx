@@ -1,3 +1,4 @@
+// Updated Navbar.js (no changes needed)
 import React from 'react'
 
 const Navbar = () => {
