@@ -14,7 +14,7 @@ const citizensSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: true,
-    enum: ['Male', 'Female', 'Other'] // restrict to valid values
+    enum: ['male', 'female', 'other'] // restrict to valid values
   },
   occupation: {
     type: String,

@@ -6,6 +6,8 @@ import CitizenDashboard from './pages/CitizenDashboard';
 import ActiveProjects from './pages/Citizen/ActiveProjects';
 import Bills from './pages/Citizen/Bills';
 import Forum from './pages/Citizen/Forum';
+import OTPVerification from './pages/OtpVerification';
+
 
 const App = () => {
   return (
@@ -13,6 +15,7 @@ const App = () => {
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/otp-verification" element={<OTPVerification />} />
 
       <Route path="/dashboard" element={<CitizenDashboard />}>
         <Route index element={<ActiveProjects />} />
