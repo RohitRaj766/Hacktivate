@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const Citizens = require("../model/citizens");
+const Project = require("../model/project");
 const { generateOTP } = require("../utils");
 const { sendMail, sendMailpasswordreset } = require("../config/mailer");
 const { generateToken } = require("../config/jwt");
@@ -168,6 +169,21 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const getProjects = async (req, res) => {
+  try {
+    const projects = await Project.find() || "hello hello"; // Fetch all projects from DB
+
+    console.log('Fetched Projects:', projects); // Print to console
+
+    return res.status(200).json({ data: projects });
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+
 const generateTokenPasswordChange = () => {
   return Math.random().toString(36).substring(2, 15);
 };
@@ -177,5 +193,6 @@ module.exports = {
   verifyOtp,
   loginUser,
   requestPasswordReset,
-  resetPassword
+  resetPassword,
+  getProjects
 };

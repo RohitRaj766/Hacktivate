@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const citizensRouter = require('./routes/citizensRouter');
-// const politicalRouter = require('./routes/politicalRouter');
+const politicalRouter = require('./routes/politicalRouter');
 const governanceRouter = require('./routes/governanceRouter');
 // const feedbackRouter = require('./routes/feedback'); // ✅ added feedback route
 
@@ -18,6 +18,7 @@ app.use(cors());
 
 // Routes
 app.use('/citizens', citizensRouter);
+app.use('/political', politicalRouter);
 app.use('/governance', governanceRouter);
 // app.use('/feedback', feedbackRouter); // ✅ added middleware
 

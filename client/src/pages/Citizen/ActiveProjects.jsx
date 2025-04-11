@@ -1,56 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 
 const ActiveProjects = () => {
-  const projects = [
-    {
-      name: 'Smart City Infrastructure',
-      description: 'Developing IoT-enabled public utilities and traffic management systems across the city',
-      sector: 'Infrastructure',
-      state: 'Active',
-      progress: 65,
-      startDate: '2023-01-15'
-    },
-    {
-      name: 'Rural Healthcare Initiative',
-      description: 'Mobile medical units and telemedicine services for remote areas',
-      sector: 'Healthcare',
-      state: 'Active',
-      progress: 40,
-      startDate: '2023-03-01'
-    },
-    {
-      name: 'Green Energy Parks',
-      description: 'Installation of solar-powered community parks with charging stations',
-      sector: 'Environment',
-      state: 'On Hold',
-      progress: 25,
-      startDate: '2023-02-10'
-    },
-    {
-      name: 'Digital Literacy Drive',
-      description: 'Free computer education centers for senior citizens',
-      sector: 'Education',
-      state: 'Active',
-      progress: 80,
-      startDate: '2022-11-05'
-    },
-    {
-      name: 'Urban Farming Network',
-      description: 'Community vertical farming initiative in apartment complexes',
-      sector: 'Agriculture',
-      state: 'Active',
-      progress: 55,
-      startDate: '2023-04-20'
-    },
-    {
-      name: 'Coastal Protection System',
-      description: 'Erosion control and mangrove restoration project',
-      sector: 'Environment',
-      state: 'Completed',
-      progress: 100,
-      startDate: '2022-08-15'
-    }
-  ];
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/citizens/projects');
+        const result = await response.json();
+        const activeProjects = result.data.filter(project => project.state === 'Active');
+        setProjects(activeProjects);
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-8 text-gray-700 text-lg">Loading projects...</div>
+    );
+  }
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
@@ -90,7 +65,7 @@ const ActiveProjects = () => {
               <div className="mt-4 space-y-2">
                 <div className="flex justify-between text-sm text-gray-500">
                   <span>Start Date</span>
-                  <span>{project.startDate}</span>
+                  <span>{new Date(project.startDate).toISOString().split('T')[0]}</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
@@ -109,16 +84,16 @@ const ActiveProjects = () => {
                 <button className="text-sm text-blue-600 hover:text-blue-800 font-medium cursor-pointer">
                   View Details
                 </button>
-                <button className="text-sm text-gray-500 hover:text-gray-700 font-medium cursor-pointer">
+                {/* <button className="text-sm text-gray-500 hover:text-gray-700 font-medium cursor-pointer">
                   Edit Project
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ActiveProjects
+export default ActiveProjects;
