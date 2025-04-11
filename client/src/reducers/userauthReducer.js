@@ -1,41 +1,39 @@
 import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
+    LOGIN_REQUEST,
+
     SIGNUP_SUCCESS,
     SIGNUP_FAILURE,
+    SIGNUP_REQUEST,
+
     VERIFY_OTP_SUCCESS,
     VERIFY_OTP_FAILURE,
-    LOGOUT_SUCCESS,
-    LOGOUT_FAILURE,
-    LOGIN_REQUEST,
-    SIGNUP_REQUEST,
     VERIFY_OTP_REQUEST,
-    VERIFY_TOKEN_HANDLE_REFRESH_SUCCESS,
-    VERIFY_TOKEN_HANDLE_REFRESH_FAILURE,
-    VERIFY_TOKEN_HANDLE_REFRESH_REQUEST,
-    SUBMIT_RESULT_SUCCESS,
-    SUBMIT_RESULT_FAILURE,
-    SUBMIT_RESULT_REQUEST
+
+    REQUEST_PASSWORD_RESET,
+    REQUEST_PASSWORD_RESET_SUCCESS,
+    REQUEST_PASSWORD_RESET_FAILURE,
+
+    RESET_PASSWORD,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_FAILURE,
+
+
   } from "../actions/index";
   
   const initialState = {
     user: null,
     error: null,
-    isAuthenticated: false,
+    // isAuthenticated: false,
     signupMessage: null,
     otpMessage: null,
     otpError: null,
     isLoading: false,
-    leaderboardData: [],
     fetchedData: [],
     fetchDataError: null,
-    quizData: null,
-    quizError: null,
-    resultSubmissionSuccess: false,
-    resultSubmissionError: null,
-    attemptedQuizzes:[],
     message:null,
-    completedQuizes:[]
+
   };
   
   const userauthReducer = (state = initialState, action) => {
@@ -107,33 +105,22 @@ import {
           isLoading: false,
           otpError: action.payload
         };
-  
-      case LOGOUT_SUCCESS:
-        return {
-          ...state,
-          isAuthenticated: false
-        };
-  
-      case LOGOUT_FAILURE:
-        return {
-          ...state
-        };
-  
-      case SUBMIT_RESULT_REQUEST:
-        return {
-          ...state,
-          isLoading: true,
-          resultSubmissionError: null,
-        };
 
-      case SUBMIT_RESULT_SUCCESS:
-        return { ...state, isLoading: false, resultSubmissionSuccess: true };
-      case SUBMIT_RESULT_FAILURE:
-        return {
-          ...state,
-          isLoading: false,
-          resultSubmissionError: action.payload,
-        };
+              case REQUEST_PASSWORD_RESET:
+                  return { ...state, loading: true, error: null };
+                case REQUEST_PASSWORD_RESET_SUCCESS:
+                  return { ...state, loading: false, message: action.payload.message };
+                case REQUEST_PASSWORD_RESET_FAILURE:
+                  return { ...state, loading: false, error: action.payload.error };
+                case RESET_PASSWORD:
+                  return { ...state, loading: true, error: null };
+                case RESET_PASSWORD_SUCCESS:
+                  return { ...state, loading: false, message: action.payload.message };
+                case RESET_PASSWORD_FAILURE:
+                  return { ...state, loading: false, error: action.payload.error }; 
+                case COMPLETED_QUIZES_SUCCESS:
+                  return{...state, loading:false,completedQuizes:action.payload}
+  
 
       default:
         return state;

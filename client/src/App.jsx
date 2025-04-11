@@ -1,14 +1,15 @@
-
-import './App.css'
-
+import "./App.css";
+import CitizenDashboard from "./pages/CitizenDashboard";
+// import PartyDashboard from "./pages/PartyDashboard";
+// import GovernanceDashboard from "./pages/GovernanceDashboard";
 function App() {
-
-
   return (
     <>
-      <h1 className="text-3xl font-bold underline bg-green-400">TEXT</h1>
+      <CitizenDashboard />
+      {/* <PartyDashboard /> */}
+      {/* <GovernanceDashboard /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
