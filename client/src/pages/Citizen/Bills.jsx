@@ -222,13 +222,8 @@ const Bills = () => {
     const updatedBills = bills.map((bill) => {
       if (bill.id === selectedBill.id) {
         // Update the bill status based on vote
-        if (vote === 'YES') {
-          return { ...bill, status: 'passed' };
-        } else if (vote === 'NO') {
-          return { ...bill, status: 'rejected' };
-        } else {
-          return { ...bill, status: 'rejected' }; // Handle NOTA if needed
-        }
+        const newStatus = vote === 'YES' ? 'passed' : 'rejected'; 
+        return { ...bill, status: 'active', voted: vote }; 
       }
       return bill;
     });
@@ -283,13 +278,30 @@ const Bills = () => {
                   {bill.status === 'active' && (
                     <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
                       {bill.voted ? (
-                        <span className="text-sm text-gray-500">Voted: {bill.voted}</span>
+                        <span className="text-sm text-gray-500 italic">
+                          You voted: <strong className="capitalize">{bill.voted && (
+                          <span className="text-sm text-gray-500 italic">
+                            <strong className={`capitalize ${bill.voted === 'YES' ? 'text-green-600' : bill.voted === 'NO' ? 'text-red-600' : 'text-yellow-600'}`}>
+                              {bill.voted}
+                            </strong>
+                          </span>
+                        )}
+                        </strong>
+                        </span>
                       ) : (
                         <button
                           className="text-sm text-blue-600 hover:text-blue-800 font-medium cursor-pointer"
                           onClick={() => openModal(bill)}
                         >
                           Vote Now
+                        </button>
+                      )}
+                      {bill.voted && (
+                        <button
+                          disabled
+                          className="ml-2 text-xs bg-gray-200 text-gray-500 px-3 py-1 rounded cursor-not-allowed"
+                        >
+                          Already Voted
                         </button>
                       )}
                     </div>
@@ -301,9 +313,8 @@ const Bills = () => {
         </div>
       ))}
 
-      <Modal isOpen={isModalOpen} onClose={closeModal} onVote={handleVote} bill={selectedBill} />
-
       <ToastContainer />
+      <Modal isOpen={isModalOpen} onClose={closeModal} onVote={handleVote} bill={selectedBill} />
     </div>
   );
 };
