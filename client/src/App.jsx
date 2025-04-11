@@ -12,12 +12,9 @@ import PoliticalPartyDashboard from './pages/PoliticalPartyDashboard';
 import OTPVerification from './pages/OtpVerification';
 import ProjectList from './pages/PoliticalParty/ProjectList';
 import PoliticalPartyBills from './pages/PoliticalParty/PoliticalPartyBills';
-<<<<<<< HEAD
 import FundManagment from './pages/PoliticalParty/FundManagment';
 import CreateProject from './pages/PoliticalParty/CreateProject';
-=======
 import Chatbot from './chatbot/Chatbot';
->>>>>>> 29210a013d26748a990bb967c2ffab2faa45b49e
 
 
 
