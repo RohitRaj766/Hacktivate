@@ -17,11 +17,13 @@ import Chatbot from './chatbot/Chatbot';
 
 const App = () => {
   return (
+    <>
+    <Chatbot/>
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/chatbot" element={<Chatbot />} />
+      {/* <Route path="/chatbot" element={<Chatbot />} /> */}
 
       <Route path="/otp-verification" element={<OTPVerification />} />
      
@@ -45,6 +47,7 @@ const App = () => {
       </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
+    </>
 
     
   );
