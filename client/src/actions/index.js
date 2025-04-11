@@ -6,19 +6,20 @@ export const SIGNUP_REQUEST = "SIGNUP_REQUEST";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const SIGNUP_FAILURE = "SIGNUP_FAILURE";
 
-export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
 
 
 export const VERIFY_OTP_REQUEST = "VERIFY_OTP_REQUEST";
 export const VERIFY_OTP_SUCCESS = "VERIFY_OTP_SUCCESS";
 export const VERIFY_OTP_FAILURE = "VERIFY_OTP_FAILURE";
 
-export const SUBMIT_RESULT_REQUEST = "SUBMIT_RESULT_REQUEST";
-export const SUBMIT_RESULT_SUCCESS = "SUBMIT_RESULT_SUCCESS";
-export const SUBMIT_RESULT_FAILURE = "SUBMIT_RESULT_FAILURE";
 
+export const REQUEST_PASSWORD_RESET = 'REQUEST_PASSWORD_RESET';
+export const REQUEST_PASSWORD_RESET_SUCCESS = 'REQUEST_PASSWORD_RESET_SUCCESS';
+export const REQUEST_PASSWORD_RESET_FAILURE = 'REQUEST_PASSWORD_RESET_FAILURE';
+
+export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_FAILURE = 'RESET_PASSWORD_FAILURE';
 
 
 export const loginRequest = (credentials) => ({
@@ -51,18 +52,6 @@ export const signupFailure = (error) => ({
   payload: error,
 });
 
-export const logoutRequest = () => ({
-  type: LOGOUT_REQUEST,
-});
-
-export const logoutSuccess = () => ({
-  type: LOGOUT_SUCCESS,
-});
-export const logoutFailure = () => ({
-  type: LOGOUT_FAILURE,
-});
-
-
 
 export const verifyOtpRequest = (otpData) => ({
   type: VERIFY_OTP_REQUEST,
@@ -80,18 +69,12 @@ export const verifyOtpFailure = (error) => ({
 });
 
 
-export const submitResultRequest = (resultData) => ({
-  type: SUBMIT_RESULT_REQUEST,
-  payload: resultData,
-});
-
-export const submitResultSuccess = (response) => ({
-  type: SUBMIT_RESULT_SUCCESS,
-  payload: response,
-});
-
-export const submitResultFailure = (error) => ({
-  type: SUBMIT_RESULT_FAILURE,
-  payload: error,
-});
-
+export const requestPasswordReset = (email) => ({
+    type: REQUEST_PASSWORD_RESET,
+    payload: email,
+  });
+  
+  export const resetPassword = (token, email, newPassword) => ({
+    type: RESET_PASSWORD,
+    payload: { token, email, newPassword },
+  });
