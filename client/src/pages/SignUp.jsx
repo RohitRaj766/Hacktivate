@@ -5,7 +5,6 @@ const Signup = () => {
   return (
     <div className="flex justify-center items-center w-full my-5 px-4">
       <div className="flex flex-col items-center w-full max-w-xl bg-white p-6 rounded-2xl shadow-lg">
-        
         <h1 className="text-4xl text-blue-700 font-bold tracking-widest mb-6">
           Sign Up
         </h1>
@@ -39,39 +38,33 @@ const Signup = () => {
             className="w-full h-12 px-4 bg-gray-50 rounded-md shadow text-gray-700 text-lg focus:outline-blue-400"
           />
 
-       
-{/* Gender Section - With Unicode Symbols */}
-<div className="w-full mt-2 mb-4">
-  <label className="block mb-1 text-gray-700 font-medium tracking-widest text-sm">
-    GENDER
-  </label>
-  <div className="flex gap-6 items-center">
-    {[
-      { label: 'Male', symbol: '♂', color: 'text-blue-600' },
-      { label: 'Female', symbol: '♀', color: 'text-pink-600' },
-      { label: 'Other', symbol: '⚧', color: 'text-purple-600' },
-    ].map(({ label, symbol, color }) => (
-      <label key={label} className="flex items-center space-x-2 cursor-pointer">
-        <input 
-          type="radio" 
-          name="gender"
-          value={label.toLowerCase()}
-          className="accent-blue-500"
-        />
-        <span className={text-xl ${color}}>{symbol}</span>
-        <span className="text-gray-700 tracking-[4px] text-sm">
-          {label}
-        </span>
-      </label>
-    ))}
-  </div>
-</div>
-
           <input
             type="text"
             placeholder="Occupation"
             className="w-full h-14 px-4 bg-gray-50 rounded-md shadow placeholder:text-gray-400 text-gray-700 text-lg focus:outline-blue-400"
           />
+
+          {/* Gender Section - Full Width, No Label */}
+          <div className="w-full flex justify-between mt-2 mb-4">
+            {[
+              { label: 'Male', symbol: '♂', color: 'text-blue-600' },
+              { label: 'Female', symbol: '♀', color: 'text-pink-600' },
+              { label: 'Other', symbol: '⚧', color: 'text-purple-600' },
+            ].map(({ label, symbol, color }) => (
+              <label key={label} className="flex items-center space-x-2 cursor-pointer w-full justify-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value={label.toLowerCase()}
+                  className="accent-blue-500"
+                />
+                <span className={`text-xl ${color}`}>{symbol}</span>
+                <span className="text-gray-700 tracking-[4px] text-sm">
+                  {label}
+                </span>
+              </label>
+            ))}
+          </div>
 
           <button
             type="submit"
