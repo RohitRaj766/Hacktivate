@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const Citizens = require("../model/citizens");
 const Project = require("../model/project");
+const Issue = require('../model/issues.js');
 const { generateOTP } = require("../utils");
 const { sendMail, sendMailpasswordreset } = require("../config/mailer");
 const { generateToken } = require("../config/jwt");
@@ -188,11 +189,39 @@ const generateTokenPasswordChange = () => {
   return Math.random().toString(36).substring(2, 15);
 };
 
+const raiseIssue = async (req, res) => {
+  try {
+    const { issueText, party } = req.body;
+
+    if (!issueText || !party) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const newIssue = new Issue({ issueText, party });
+    await newIssue.save();
+
+    res.status(201).json({ message: 'Issue submitted successfully', data: newIssue });
+  } catch (error) {
+    console.error('Error submitting issue:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+const getAllIssues = async (req, res) => {
+  try {
+    const issues = await Issue.find().sort({ createdAt: -1 });
+    res.json(issues);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching issues' });
+  }
+};
+
 module.exports = {
   registerUser,
   verifyOtp,
   loginUser,
   requestPasswordReset,
   resetPassword,
-  getProjects
+  getProjects,
+  raiseIssue,
+  getAllIssues
 };

@@ -6,16 +6,38 @@ const RaiseIssue = () => {
   const [issueText, setIssueText] = useState('');
   const [party, setParty] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!issueText || !party) {
       toast.error('Please fill in all fields.');
       return;
     }
-    console.log('Issue submitted:', { issueText, party });
-    toast.success('Issue submitted successfully!');
-    setIssueText('');
-    setParty('');
+
+    try {
+      const response = await fetch('http://localhost:5000/citizens/raise-issue', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          issueText: issueText,
+          party: party,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit issue.');
+      }
+
+      const result = await response.json();
+      console.log('Issue submitted:', result);
+      toast.success('Issue submitted successfully!');
+      setIssueText('');
+      setParty('');
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong while submitting the issue.');
+    }
   };
 
   return (
@@ -63,12 +85,13 @@ const RaiseIssue = () => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="cursor-pointed bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md"
+            className="cursor-pointer bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white text-sm font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md"
           >
             Submit Issue
           </button>
         </div>
       </form>
+      
       <ToastContainer />
     </div>
   );

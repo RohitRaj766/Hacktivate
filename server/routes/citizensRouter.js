@@ -9,7 +9,9 @@ const {
     loginUser,
     requestPasswordReset,
     resetPassword,
-    getProjects
+    getProjects,
+    raiseIssue,
+    getAllIssues
 } = require("../controller/citizensController");
 
 router.post("/registration", registerUser);
@@ -18,5 +20,7 @@ router.post("/login", loginUser);
 router.post('/request-password-reset', requestPasswordReset);
 router.post('/reset-password', resetPassword);
 router.get('/projects', getProjects);
+router.post('/raise-issue', raiseIssue);
+router.get('/getall-issue', getAllIssues);
 
 module.exports = router;
