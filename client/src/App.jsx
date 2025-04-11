@@ -12,6 +12,7 @@ import PoliticalPartyDashboard from './pages/PoliticalPartyDashboard';
 import OTPVerification from './pages/OtpVerification';
 import ProjectList from './pages/PoliticalParty/ProjectList';
 import PoliticalPartyBills from './pages/PoliticalParty/PoliticalPartyBills';
+import Chatbot from './chatbot/Chatbot';
 
 
 
@@ -27,6 +28,7 @@ const App = () => {
         path="/dashboard"
         element={
           <ProtectedRoute>
+            <Chatbot/>
             <CitizenDashboard />
           </ProtectedRoute>
         }
