@@ -1,17 +1,16 @@
 const bcrypt = require("bcryptjs");
 const Citizens = require("../model/citizens");
-const { generateOTP } = require('../utils');
-const { sendMail } = require('../config/mailer');
+const { generateOTP } = require("../utils");
+const { sendMail, sendMailpasswordreset } = require("../config/mailer");
 const { generateToken } = require("../config/jwt");
 
-let otpStore = {}; // In-memory store. Consider Redis or DB for production
+let otpStore = {};
 
-// Register with OTP email verification
 const registerUser = async (req, res) => {
   try {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, gender, occupation, dateofbirth } = req.body;
 
-    if (!firstname || !lastname || !email || !password) {
+    if (!firstname || !lastname || !email || !password || !gender || !occupation || !dateofbirth) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -21,25 +20,22 @@ const registerUser = async (req, res) => {
     }
 
     const otp = generateOTP();
-    const expiry = Date.now() + 600000; // 10 minutes
+    const expiry = Date.now() + 10 * 60 * 1000;
 
     otpStore[email] = {
       otp,
       expiry,
-      user: { firstname, lastname, email, password }
+      user: { firstname, lastname, email, password, gender, occupation, dateofbirth }
     };
 
-    console.log(`Generated OTP for ${email}:`, otp); // for testing only
     await sendMail(email, otp);
 
-    return res.status(200).json({ message: 'OTP sent to email' });
+    return res.status(200).json({ message: "OTP sent to email" });
   } catch (error) {
-    console.error("Register Error:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-// OTP Verification and Final User Creation
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -50,26 +46,28 @@ const verifyOtp = async (req, res) => {
 
     const otpData = otpStore[email];
     if (!otpData) {
-      return res.status(400).json({ error: 'Invalid or expired OTP' });
+      return res.status(400).json({ error: "Invalid or expired OTP" });
     }
 
     if (Date.now() > otpData.expiry) {
       delete otpStore[email];
-      return res.status(400).json({ error: 'OTP expired' });
+      return res.status(400).json({ error: "OTP expired" });
     }
 
     if (otpData.otp !== otp) {
-      console.log(otpData.otp)
-      return res.status(400).json({ error: 'Invalid OTP' });
+      return res.status(400).json({ error: "Invalid OTP" });
     }
 
-    const { firstname, lastname, password } = otpData.user;
-
+    const { firstname, lastname, password, gender, occupation, dateofbirth } = otpData.user;
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new Citizens({
       firstname,
       lastname,
       email,
+      gender,
+      occupation,
+      dateofbirth,
       password: hashedPassword
     });
 
@@ -77,14 +75,11 @@ const verifyOtp = async (req, res) => {
     delete otpStore[email];
 
     return res.status(201).json({ message: "User Registered Successfully" });
-
   } catch (error) {
-    console.error("OTP Verification Error:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-// Login Logic
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -103,22 +98,70 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const token = generateToken(userExist._id);
+    const token = await generateToken(userExist._id);
     const { password: _, ...userWithoutPassword } = userExist.toObject();
 
     return res.status(200).json({
-      message: "Login successful",
+      message: "Login successfull",
       LoggedInUser: userWithoutPassword,
       authtoken: token
     });
   } catch (error) {
-    console.error("Login Error:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+const requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await Citizens.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const token = generateTokenPasswordChange();
+    const expiry = Date.now() + 5 * 60 * 1000;
+
+    otpStore[email] = { token, expiry };
+
+    const resetLink = `localhost:5000/citizens/reset-password/${token}`;
+    await sendMailpasswordreset(email, resetLink);
+
+    return res.status(200).json({ message: "Password reset link sent to email" });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token, email, newPassword } = req.body;
+
+    const resetData = otpStore[email];
+    if (!resetData || resetData.token !== token || Date.now() > resetData.expiry) {
+      return res.status(400).json({ error: "Invalid or expired token" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await Citizens.updateOne({ email }, { password: hashedPassword });
+
+    delete otpStore[email];
+
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const generateTokenPasswordChange = () => {
+  return Math.random().toString(36).substring(2, 15);
 };
 
 module.exports = {
   registerUser,
   verifyOtp,
-  loginUser
+  loginUser,
+  requestPasswordReset,
+  resetPassword
 };

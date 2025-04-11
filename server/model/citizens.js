@@ -3,17 +3,36 @@ const mongoose = require('mongoose');
 const citizensSchema = new mongoose.Schema({
   firstname: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   lastname: {
     type: String,
+    required: true,
+    trim: true
+  },
+  gender: {
+    type: String,
+    required: true,
+    enum: ['Male', 'Female', 'Other'] // restrict to valid values
+  },
+  occupation: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  dateofbirth: {
+    type: Date, 
     required: true
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    index: true
+    index: true,
+    lowercase: true,
+    trim: true,
+    match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email'] 
   },
   password: {
     type: String,

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const electioncommissionSchema = new mongoose.Schema({
+const governanceSchema = new mongoose.Schema({
   firstname: {
     type: String,
     required: true
@@ -21,6 +21,6 @@ const electioncommissionSchema = new mongoose.Schema({
   }
 });
 
-const ElectionCommission = mongoose.model('Electioncommission', electioncommissionSchema, 'electioncommision');
+const Governance = mongoose.model('Governance', governanceSchema, 'governance');
 
-module.exports = ElectionCommission;
+module.exports = Governance;
