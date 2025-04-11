@@ -1,14 +1,13 @@
-// Updated Sidebar.js
-import React, { useState } from 'react';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
-  const [selectedItem, setSelectedItem] = useState(0);
-
   const menuItems = [
-    { icon: '📂', text: 'Active Projects' },
-    { icon: '💰', text: 'Bills' },
-    { icon: '📊', text: 'Polls' },
-    { icon: '⚠️', text: 'Raise Issue' },
+    { icon: '📂', text: 'Active Projects', path: '/dashboard' },
+    { icon: '💰', text: 'Bills', path: '/dashboard/bills' },
+    { icon: '💬', text: 'Forum', path: '/dashboard/forum' },
+    { icon: '⚠️', text: 'Raise Issue', path: '/dashboard/raise-issue' },
+    { icon: '🛠️', text: 'Edit Profile', path: '/dashboard/edit-profile' },
   ];
 
   return (
@@ -23,19 +22,22 @@ const Sidebar = () => {
 
       {/* Menu Items */}
       <nav className="space-y-2">
-        {menuItems.map((item, index) => (
-          <button
+        {menuItems.map((item) => (
+          <NavLink
             key={item.text}
-            onClick={() => setSelectedItem(index)}
-            className={`w-full flex items-center px-3 py-2 rounded-lg transition-all
-              ${selectedItem === index 
-                ? 'bg-blue-50 text-blue-600 font-medium border-l-2 border-blue-500' 
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
+            to={item.path}
+            end={item.path === '/dashboard'} // only match exact for dashboard root
+            className={({ isActive }) =>
+              `w-full flex items-center px-3 py-2 rounded-lg transition-all ${
+                isActive
+                  ? 'bg-blue-50 text-blue-600 font-medium border-l-2 border-blue-500'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`
+            }
           >
             <span className="text-xl mr-3">{item.icon}</span>
             <span className="text-sm">{item.text}</span>
-          </button>
+          </NavLink>
         ))}
       </nav>
     </div>
