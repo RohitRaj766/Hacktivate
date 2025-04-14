@@ -23,6 +23,9 @@ import GovernanceDashboard from './pages/GovernanceDashboard'; // Election Commi
 import Landing from './components/Landing';
 import LoginAdmin from './components/auth/LoginAdmin';
 import LoginOfficer from './components/auth/LoginOfficer';
+import SignupAdmin from './components/auth/SignupAdmin';
+import SignupCitizen from './components/auth/SignupCitizen';
+import SignupOfficer from './components/auth/SignupOfficer';
 
 const App = () => {
   return (
@@ -33,6 +36,10 @@ const App = () => {
       <Route path="/officer/login" element={<LoginOfficer />} />
       <Route path="/citizen/signup" element={<Signup />} />
       <Route path="/otp-verification" element={<OTPVerification />} />
+      <Route path="/citizen/registration" element={<SignupCitizen />} />
+      <Route path="/admin/registration" element={< SignupAdmin />} />
+      <Route path="/officer/registration" element={<SignupOfficer />} />
+
 
       {/* Citizen Dashboard Routes */}
       <Route
