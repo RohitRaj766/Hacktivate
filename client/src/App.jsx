@@ -15,8 +15,7 @@ import PoliticalPartyBills from './pages/PoliticalParty/PoliticalPartyBills';
 import FundManagment from './pages/PoliticalParty/FundManagment';
 import CreateProject from './pages/PoliticalParty/CreateProject';
 import Chatbot from './chatbot/Chatbot';
-
-
+import OnboardContractors from './pages/PoliticalParty/OnboardContractors'; // ✅ Corrected import
 
 const App = () => {
   return (
@@ -25,12 +24,12 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/otp-verification" element={<OTPVerification />} />
-     
+
       <Route
         path="/dashboard"
         element={
           <ProtectedRoute>
-            <Chatbot/>
+            <Chatbot />
             <CitizenDashboard />
           </ProtectedRoute>
         }
@@ -46,7 +45,9 @@ const App = () => {
         <Route path="political-bills" element={<PoliticalPartyBills />} />
         <Route path="fund-management" element={<FundManagment />} />
         <Route path="create-project" element={<CreateProject />} />
+        <Route path="onboard-contractors" element={<OnboardContractors />} /> {/* ✅ Fixed */}
       </Route>
+
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

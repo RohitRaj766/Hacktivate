@@ -7,6 +7,7 @@ const PoliticalPartySidebar = () => {
     { icon: '📑', text: 'Bills', path: 'political-bills' },
     { icon: '💰', text: 'Fund Management', path: 'fund-management' },
     { icon: '🛠️', text: 'Create Project', path: 'create-project' },
+    { icon: '🛠️', text: 'OnBoard Contractors', path: 'onboard-contractors' },
   ];
 
   return (

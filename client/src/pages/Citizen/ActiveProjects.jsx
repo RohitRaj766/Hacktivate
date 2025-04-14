@@ -15,7 +15,7 @@ const ActiveProjects = () => {
         const response = await fetch('http://localhost:5000/citizens/projects');
         const result = await response.json();
         const activeProjects = result.data.filter(project => project.state === 'Active');
-        
+
         const projectsWithRandomBudget = activeProjects.map(project => {
           const randomBudget = BUDGET_ARRAY[Math.floor(Math.random() * BUDGET_ARRAY.length)];
           const randomFunding = FUNDING_ARRAY[Math.floor(Math.random() * FUNDING_ARRAY.length)];
@@ -72,17 +72,8 @@ const ActiveProjects = () => {
                 <span>Start Date</span>
                 <span>{new Date(selectedProject.startDate).toISOString().split('T')[0]}</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className={`h-2 rounded-full 
-                    ${selectedProject.progress === 100 ? 'bg-blue-500' : 'bg-green-500'}`}
-                  style={{ width: `${selectedProject.progress}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between text-sm text-gray-500">
-                <span>Progress</span>
-                <span>{selectedProject.progress}%</span>
-              </div>
+
+              {/* Removed progress bar */}
 
               <div className="space-y-4 mt-6">
                 <div className="flex justify-between text-lg font-semibold text-gray-800">
@@ -145,17 +136,7 @@ const ActiveProjects = () => {
                   <span>Start Date</span>
                   <span>{new Date(project.startDate).toISOString().split('T')[0]}</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full 
-                      ${project.progress === 100 ? 'bg-blue-500' : 'bg-green-500'}`}
-                    style={{ width: `${project.progress}%` }}
-                  ></div>
-                </div>
-                <div className="flex justify-between text-sm text-gray-500">
-                  <span>Progress</span>
-                  <span>{project.progress}%</span>
-                </div>
+                {/* Removed progress bar */}
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between">
