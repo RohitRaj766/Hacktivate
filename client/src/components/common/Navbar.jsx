@@ -1,11 +1,11 @@
 import React from 'react';
-import logo from '../assets/lockmunch.png'; 
+import logo from '../../assets/lockmunch.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logoutUser } from '../actions/userActions';
+// import { logoutUser } from '../actions/userActions';
 
 const Navbar = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const userFromRedux = useSelector((state) => state.userauth.user);
 
@@ -16,7 +16,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    dispatch(logoutUser());
+    // dispatch(logoutUser());
     navigate('/login');
   };
 

@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import CitizenSidebar from "../components/CitizenSidebar";
+import Navbar from "../components/common/Navbar";
+import CitizenSidebar from "../components/dashboards/CitizenSidebar";
 import { Outlet } from "react-router-dom";
 
 const CitizenDashboard = () => {

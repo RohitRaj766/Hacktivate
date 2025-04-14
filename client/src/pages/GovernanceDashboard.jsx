@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import GovernanceSidebar from "../components/GoveranceSidebar";
+import Navbar from "../components/common/Navbar";
+import GovernanceSidebar from "../components/dashboards/GoveranceSidebar";
 
 const GovernanceDashboard = ({ children }) => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
+import LoginCitizen from './components/auth/LoginCitizen';
 import Signup from './pages/SignUp';
 import CitizenDashboard from './pages/CitizenDashboard';
 import ActiveProjects from './pages/Citizen/ActiveProjects';
@@ -15,20 +15,30 @@ import PoliticalPartyBills from './pages/PoliticalParty/PoliticalPartyBills';
 import FundManagment from './pages/PoliticalParty/FundManagment';
 import CreateProject from './pages/PoliticalParty/CreateProject';
 import Chatbot from './chatbot/Chatbot';
-import OnboardContractors from './pages/PoliticalParty/OnboardContractors'; // ✅ Corrected import
+import OnboardContractors from './pages/PoliticalParty/OnboardContractors';
+import GovernanceDashboard from './pages/GovernanceDashboard'; // Election Commission Dashboard
+// import ElectionProjects from './pages/ElectionCommission/ElectionProjects'; // Projects for Election Commission/?/
+// import ManageParties from './pages/ElectionCommission/ManageParties'; // Manage political parties
+// import ViewElections from './pages/ElectionCommission/ViewElections'; // View elections
+import Landing from './components/Landing';
+import LoginAdmin from './components/auth/LoginAdmin';
+import LoginOfficer from './components/auth/LoginOfficer';
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/citizen/login" element={<LoginCitizen />} />
+      <Route path="/admin/login" element={<LoginAdmin />} />
+      <Route path="/officer/login" element={<LoginOfficer />} />
+      <Route path="/citizen/signup" element={<Signup />} />
       <Route path="/otp-verification" element={<OTPVerification />} />
 
+      {/* Citizen Dashboard Routes */}
       <Route
-        path="/dashboard"
+        path="/citizen-dashboard"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute role="citizen">
             <Chatbot />
             <CitizenDashboard />
           </ProtectedRoute>
@@ -40,14 +50,37 @@ const App = () => {
         <Route path="raise-issue" element={<RaiseIssue />} />
       </Route>
 
-      <Route path="/political-dashboard" element={<PoliticalPartyDashboard />}>
+      {/* Political Party Dashboard Routes */}
+      <Route
+        path="/political-dashboard"
+        element={
+          <ProtectedRoute role="political-party">
+            <PoliticalPartyDashboard />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<ProjectList />} />
         <Route path="political-bills" element={<PoliticalPartyBills />} />
         <Route path="fund-management" element={<FundManagment />} />
         <Route path="create-project" element={<CreateProject />} />
-        <Route path="onboard-contractors" element={<OnboardContractors />} /> {/* ✅ Fixed */}
+        <Route path="onboard-contractors" element={<OnboardContractors />} />
       </Route>
 
+      {/* Election Commission Dashboard Routes */}
+      <Route
+        path="/election-dashboard"
+        element={
+          <ProtectedRoute role="election-commission">
+            <GovernanceDashboard />
+          </ProtectedRoute>
+        }
+      >
+        {/* <Route index element={<ElectionProjects />} /> */}
+        {/* <Route path="manage-parties" element={<ManageParties />} /> */}
+        {/* <Route path="view-elections" element={<ViewElections />} /> */}
+      </Route>
+
+      {/* Default Route (if the user is not logged in or tries to access an invalid route) */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

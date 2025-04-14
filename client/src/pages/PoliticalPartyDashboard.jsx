@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../components/Navbar";
-import PartySidebar from "../components/PoliticalPartySidebar";
+import Navbar from "../components/common/Navbar";
+import PartySidebar from "../components/dashboards/PoliticalPartySidebar";
 import { Outlet } from "react-router-dom";
 
 const PoliticalPartyDashboard = () => {
